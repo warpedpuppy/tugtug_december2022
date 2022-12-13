@@ -6,23 +6,46 @@ import AllGrids from './Admin/AllMazes/AllGrids'
 import AdminHome from './Admin/AdminHome'
 import Login from './Admin/Login'
 import './Admin.css'
-import SiteContext from '../SiteContext'
+import MazeService from '../services/maze-service'
+import TokenService from '../services/token-service'
+// import SiteContext from '../SiteContext'
 
 
 export default class LoggedIn extends React.Component {
-  componentDidMount () {
-    const { mazeGameHandler } = this.context
-    mazeGameHandler('admin')
+
+  state = {mazes:[], loggedIn: false}
+
+  addMaze = (maze) => {
+	this.setState({mazes: [...this.state.mazes, maze]})
   }
 
-  componentWillUnmount () {
-    const { mazeGameHandler } = this.context
-    mazeGameHandler('')
+  deleteMaze = (index) => {
+	let mazes = [...this.state.mazes];
+
+	mazes.splice(index, 1)
+
+	this.setState({mazes})
+  }
+
+  async componentDidMount () {
+	
+	let mazes = await MazeService.loadAllMazes()
+	this.setState({mazes})
+
+	if (TokenService.getAuthToken()) {
+		this.setState({loggedIn: true})
+	}
+  }
+
+  loginHandler = () => {
+	this.setState({loggedIn: true})
+  }
+  logOutHandler = () => {
+	this.setState({loggedIn: false})
   }
 
   render () {
-    const { loggedIn } = this.context
-    if (loggedIn) {
+	const { mazes, loggedIn } = this.state;
       return (
         <div className="general-page-layout">
           <Tabs defaultActiveKey="home" id="uncontrolled-tab-example">
@@ -30,36 +53,17 @@ export default class LoggedIn extends React.Component {
               <AdminHome />
             </Tab>
             <Tab eventKey="new-grid" title="new grid">
-              <NewGrid />
+              <NewGrid addMaze={ this.addMaze } loggedIn={loggedIn} />
             </Tab>
             <Tab eventKey="all-grids" title="all grids">
-              <AllGrids />
+              <AllGrids mazes={ mazes } deleteMaze={ this.deleteMaze }/>
             </Tab>
             <Tab eventKey="admin" title="admin's admin">
-              <Login />
+              <Login loginHandler={this.loginHandler} loggedIn={loggedIn} logOutHandler={this.logOutHandler}/>
             </Tab>
           </Tabs>
         </div>
       )
-    }
-    return (
-      <div className="general-page-layout">
-        <Tabs defaultActiveKey="home" id="uncontrolled-tab-example">
-          <Tab eventKey="home" title="Home">
-            <AdminHome />
-          </Tab>
-          <Tab eventKey="new-grid" title="new grid">
-            <NewGrid />
-          </Tab>
-          <Tab eventKey="all-grids" title="all grids">
-            <AllGrids />
-          </Tab>
-          <Tab eventKey="admin" title="admin's admin">
-            <Login />
-          </Tab>
-        </Tabs>
-      </div>
-    )
+    
   }
 }
-LoggedIn.contextType = SiteContext

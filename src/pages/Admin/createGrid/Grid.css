@@ -1,0 +1,17 @@
+.gridCont {
+    /* display: inline-block; */
+}
+
+.maze-row:first-child .cell {
+    background-color: black;
+}
+.maze-row:last-child .cell {
+    background-color: black;
+}
+.cell:first-child {
+    background-color: black;
+}
+.cell:last-child {
+    background-color: black;
+}
+

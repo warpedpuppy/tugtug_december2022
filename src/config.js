@@ -1,5 +1,6 @@
-export default {
-  API_ENDPOINT_NOT: 'http://localhost:8000/api',
-  API_ENDPOINT: 'https://trying-something-backend.herokuapp.com/api',
-  TOKEN_KEY: 'MAZE_BUILDER'
+const Config =  {
+    API_URL: 'http://localhost:8080',
+    // API_URL: 'https://trying-something-backend.herokuapp.com',
 }
+
+export default Config;

@@ -1,10 +1,22 @@
 import config from '../config'
 import TokenService from './token-service'
 import DefaultMaze from '../defaults/DefaultMaze';
+import axios from 'axios';
 const MazeService = {
+  mazes: [DefaultMaze],
+  addMazes(maze) {
+
+	if (maze) this.mazes.push(maze);
+  },
+  getMazes() {
+	return this.mazes;
+  },
+  setIdsAndActiveMazeId () {
+
+  },
   async load_ids () {
     try {
-      const res = await fetch(`${config.API_ENDPOINT}/tugtug/get-grid-ids`, {
+      const res = await fetch(`${config.API_URL}/tugtug/get-grid-ids`, {
         method: 'GET',
         headers: {
           'content-type': 'application/json'
@@ -19,7 +31,7 @@ const MazeService = {
   },
   async getOneMaze (id) {
     try {
-      const res = await fetch(`${config.API_ENDPOINT}/tugtug/get-grid`, {
+      const res = await fetch(`${config.API_URL}/tugtug/get-grid`, {
         method: 'POST',
         headers: {
           'content-type': 'application/json'
@@ -36,25 +48,23 @@ const MazeService = {
   },
   async loadAllMazes () {
     try {
-      const res = await fetch(`${config.API_ENDPOINT}/tugtug/all-mazes`, {
-        method: 'GET',
+      const res = await axios.get(`${config.API_URL}/api/tugtug/all-mazes`, {
         headers: {
           Authorization: `Bearer ${TokenService.getAuthToken()}`
         }
       })
-      const res_1 = await res.json()
-      return res_1
+      return [...res.data.mazes, ...this.mazes];
     }
     catch (error) {
-      return error
+      return this.mazes
     }
   },
   async saveMaze (data) {
-    console.log("TokenService.getAuthToken()", TokenService.getAuthToken())
+    
     let body = JSON.stringify({ data })
     console.log(body)
     try {
-      const res = await fetch(`${config.API_ENDPOINT}/tugtug/new-maze`, {
+      const res = await fetch(`${config.API_URL}/tugtug/new-maze`, {
         method: 'POST',
         headers: {
           'content-type': 'application/json',
@@ -74,7 +84,7 @@ const MazeService = {
   },
   async deleteMaze (id) {
     try {
-      const res = await fetch(`${config.API_ENDPOINT}/tugtug/delete-maze`, {
+      const res = await fetch(`${config.API_URL}/tugtug/delete-maze`, {
         method: 'DELETE',
         headers: {
           'content-type': 'application/json',

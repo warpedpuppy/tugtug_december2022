@@ -3,7 +3,7 @@ import TokenService from './token-service'
 
 const AuthApiService = {
   async showLoginForm (code) {
-    const result = await fetch(`${config.API_ENDPOINT}/auth/show-login-form`, {
+    const result = await fetch(`${config.API_URL}/auth/show-login-form`, {
       method: 'POST',
       headers: {
         'content-type': 'application/json'
@@ -15,7 +15,7 @@ const AuthApiService = {
   },
   async postLogin (password) {
     try {
-      const res = await fetch(`${config.API_ENDPOINT}/auth/login`, {
+      const res = await fetch(`${config.API_URL}/auth/login`, {
         method: 'POST',
         headers: {
           'content-type': 'application/json'
@@ -26,7 +26,6 @@ const AuthApiService = {
         ? res.json().then((e) => Promise.reject(e))
         : res.json())
 
-      console.log(res_1)
       if (res_1.authToken) {
         TokenService.saveAuthToken(res_1.authToken)
         return { login: true }
