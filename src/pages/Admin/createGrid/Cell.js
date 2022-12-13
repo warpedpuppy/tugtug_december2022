@@ -43,7 +43,7 @@ export default class Cell extends React.Component {
         this.setState({ activeColor: '' })
       }
     }
-
+	
     render () {
       const {
         hero, token1, token2, token3, token4, rowval, cellval, wallBoolean

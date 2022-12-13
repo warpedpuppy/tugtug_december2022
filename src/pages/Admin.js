@@ -9,22 +9,28 @@ import './Admin.css'
 import MazeService from '../services/maze-service'
 import TokenService from '../services/token-service'
 // import SiteContext from '../SiteContext'
-
+import DefaultMaze from '../defaults/DefaultMaze'
 
 export default class LoggedIn extends React.Component {
 
-  state = {mazes:[], loggedIn: false}
+  state = {mazes:[DefaultMaze], loggedIn: false}
 
   addMaze = (maze) => {
+	console.log(maze)
 	this.setState({mazes: [...this.state.mazes, maze]})
   }
 
   deleteMaze = (index) => {
+	console.log(this.state.mazes[index])
+
 	let mazes = [...this.state.mazes];
-
 	mazes.splice(index, 1)
-
 	this.setState({mazes})
+
+	if (!this.state.mazes[index].temp) {
+		//remove from remote server
+	}
+
   }
 
   async componentDidMount () {
@@ -56,7 +62,7 @@ export default class LoggedIn extends React.Component {
               <NewGrid addMaze={ this.addMaze } loggedIn={loggedIn} />
             </Tab>
             <Tab eventKey="all-grids" title="all grids">
-              <AllGrids mazes={ mazes } deleteMaze={ this.deleteMaze }/>
+              <AllGrids mazes={ mazes } deleteMaze={ this.deleteMaze } />
             </Tab>
             <Tab eventKey="admin" title="admin's admin">
               <Login loginHandler={this.loginHandler} loggedIn={loggedIn} logOutHandler={this.logOutHandler}/>

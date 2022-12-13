@@ -62,9 +62,9 @@ const MazeService = {
   async saveMaze (data) {
     
     let body = JSON.stringify({ data })
-    console.log(body)
+    console.log(body, TokenService.getAuthToken())
     try {
-      const res = await fetch(`${config.API_URL}/tugtug/new-maze`, {
+      const res = await fetch(`${config.API_URL}/api/tugtug/new-maze`, {
         method: 'POST',
         headers: {
           'content-type': 'application/json',

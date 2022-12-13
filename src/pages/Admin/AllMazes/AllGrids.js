@@ -46,7 +46,7 @@ export default class AllGrids extends React.Component {
 	}
 
     render () {
-
+		console.log('this one seems to miss hero', this.props.mazes[0])
           return (
           <>
             <div className="all-grids">

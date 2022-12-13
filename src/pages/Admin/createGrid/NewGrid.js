@@ -77,19 +77,21 @@ export default class NewGrid extends React.Component {
       return obj
     }
 
-    saveMazeHandler = () => {
+    saveMazeHandler = async () => {
       this.setState({ feedback: '' })
 
       const obj = this.createObject()
       console.log('save maze handler = ', obj)
-      if (obj.hero && obj.token1 && obj.token2 && obj.token3 && obj.token4) {
-        MazeService.saveMaze(obj)
-          .then((res) => {
-            if (res.success) {
-              this.clearMaze()
-              this.setState({ feedback: <Alert variant="success">maze entered!</Alert> })
-            }
-          })
+	  // && obj.token1 && obj.token2 && obj.token3 && obj.token4
+      if (obj.hero) {
+        let res = await MazeService.saveMaze(obj)
+
+		if (res.success) {
+			this.clearMaze();
+			this.props.addMaze(obj);
+			this.setState({ feedback: <Alert variant="success">maze entered!</Alert> })
+		}
+
       } else {
         this.setState({ feedback: <Alert variant="warning">you need to add everything</Alert> })
       }
@@ -101,9 +103,10 @@ export default class NewGrid extends React.Component {
       const obj = this.createObject()
       obj.id = nextId()
 
-      console.log(obj)
+
 		// && obj.token1 && obj.token2 && obj.token3 && obj.token4
       if (obj.hero) {
+		obj.temp = true;
 		this.props.addMaze(obj);
         this.clearMaze()
         this.setState({ feedback: <Alert variant="success">temporary maze entered!</Alert> })
@@ -111,13 +114,13 @@ export default class NewGrid extends React.Component {
         this.setState({ feedback: <Alert variant="warning">you need to add everything</Alert> })
       }
     }
-
+// 
     render () {
-
+// this.props.loggedIn && 
        
       return (
         <div>
-		{ this.props.loggedIn && <Button variant="success" onClick={this.saveMazeHandler}>save maze</Button>}
+		{ <Button variant="success" onClick={this.saveMazeHandler}>save maze</Button>}
         <Button variant="success" onClick={this.tempSaveMazeHandler}>save temporary maze</Button>
           <fieldset>
             <legend>build a new grid</legend>
