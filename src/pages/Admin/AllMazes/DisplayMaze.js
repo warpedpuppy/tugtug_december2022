@@ -20,11 +20,13 @@ export default class DisplayMaze extends React.Component {
             {active}
             <Grid {...this.props} />
          {
-		 !this.props.default &&  <Button
+		 !this.props.default ?  <Button
               onClick={() => this.props.deleteMaze(this.props.id)}
               variant="outline-danger"
               className="delete-maze-button"
             > Delete Maze </Button>
+			:
+			<p>this is the default - cannot be deleted</p>
 		  }
           </div>
         )

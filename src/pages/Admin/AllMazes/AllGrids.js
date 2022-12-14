@@ -1,85 +1,56 @@
-import React from 'react'
-import MazeService from '../../../services/maze-service'
-import DisplayMaze from './DisplayMaze'
-import './AllGrids.css'
-import Modal from 'react-bootstrap/Modal'
-import Button from 'react-bootstrap/Button'
+import { useState } from 'react';
+import MazeService from '../../../services/maze-service';
+import DisplayMaze from './DisplayMaze';
+import './AllGrids.css';
+import DeleteModal from './DeleteModal';
 
-export default class AllGrids extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      show: false,
-      idToDelete: undefined,
-	  mazeToDelete: undefined
-    }
-  }
 
-    componentDidMount () {
-    //   this.loadMazes()
-    }
+const AllGrids = props =>  {
+	const [show, setShow ] = useState(false);
+	const [idToDelete, setIDToDelete] = useState(undefined);
+    const handleClose = () => setShow(false);
 
-    handleClose = () => this.setState({ show: false });
-
-    handleShow = (id) => {
-      this.setState({ show: true, idToDelete: id })
+    const handleShow = (id) => {
+		setShow(true);
+		setIDToDelete(id);
     };
 
-    deleteMazeHandler = (maze) => {
-		this.props.deleteMaze(this.state.mazeToDelete)
-		this.handleClose();
-    //   MazeService.deleteMaze(this.state.idToDelete)
-    //     .then((data) => {
-    //       console.log(data)
-    //     })
-    //   this.setState({ show: false, idToDelete: undefined })
+    const deleteMazeHandler = (maze) => {
+		props.deleteMaze(mazeToDelete)
+		handleClose();
     }
 
-	triggerModal = (id) => {
-		this.handleShow();
-		this.setState({mazeToDelete: id})
+	const triggerModal = (id) => {
+		handleShow();
+		setIDToDelete(id);
 	}
 
-	cancelModal = () => {
-		this.handleClose();
-		this.setState({mazeToDelete: undefined})
+	const cancelModal = () => {
+		handleClose();
+		setIDToDelete(undefined);
 	}
 
-    render () {
-
-          return (
-          <>
-            <div className="all-grids">
-              {
-				
-                this.props.mazes.map((mazeObject, index) => {
-						console.log(mazeObject)
+	return (
+		<>
+		<div className="all-grids">
+			{
+				props.mazes.map((mazeObject, index) => {
 					return (
-                  <DisplayMaze
-                    key={index}
-                    deleteMaze={() => this.triggerModal(index)}
-                    {...mazeObject}
-                  />
-                )})
-              }
-            </div>
-            <Modal show={this.state.show} onHide={this.handleClose}>
-              <Modal.Header closeButton>
-                <Modal.Title>Maze Deleterizer</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>You are sure you want to delete?</Modal.Body>
-              <Modal.Footer>
-                <Button variant="danger" onClick={this.deleteMazeHandler}>
-                      confirm delete
-                </Button>
-                <Button variant="warning" onClick={this.cancelModal}>
-                      cancel delete
-                </Button>
-              </Modal.Footer>
-            </Modal>
-          </>
-        )
-    
-      
-    }
+						<DisplayMaze
+							key={index}
+							deleteMaze={() => triggerModal(index)}
+							{...mazeObject}
+						/>
+					)
+				})
+			}
+		</div>
+		<DeleteModal 
+			show={show} 
+			handleClose={handleClose} 
+			deleteMazeHandler={deleteMazeHandler} 
+			cancelModal={cancelModal} />
+		</>
+	)
 }
+export default AllGrids;

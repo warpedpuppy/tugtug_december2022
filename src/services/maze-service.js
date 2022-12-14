@@ -39,7 +39,7 @@ const MazeService = {
       return res_1
     }
     catch (error) {
-      console.log('get one maze error')
+
       return DefaultMaze; //error
     }
   },
@@ -50,6 +50,7 @@ const MazeService = {
           Authorization: `Bearer ${TokenService.getAuthToken()}`
         }
       })
+
       return [...res.data.mazes, ...this.mazes];
     }
     catch (error) {
@@ -59,7 +60,7 @@ const MazeService = {
   async saveMaze (data) {
     
     let body = JSON.stringify({ data })
-    console.log(body, TokenService.getAuthToken())
+
     try {
       const res = await fetch(`${config.API_URL}/api/tugtug/new-maze`, {
         method: 'POST',
@@ -80,17 +81,16 @@ const MazeService = {
     }
   },
   async deleteMaze (id) {
+
     try {
-      const res = await fetch(`${config.API_URL}/tugtug/delete-maze`, {
-        method: 'DELETE',
+      const res = await axios.delete(`${config.API_URL}/api/tugtug/delete-maze`, {
         headers: {
           'content-type': 'application/json',
           Authorization: `Bearer ${TokenService.getAuthToken()}`
         },
-        body: JSON.stringify({ id })
+		data: JSON.stringify({id})
       })
-      const res_1 = await res.json()
-      return res_1
+      return res;
     }
     catch (error) {
       return error

@@ -2,24 +2,25 @@ import React from 'react'
 import Cell from './Cell'
 import './Row.css'
 
-export default function Row (props) {
-  const { walls, c, rowval } = props;
-  
+const Row = ({ walls, c, rowval, drawing, activeItem }) => {
+
   const wallString = JSON.stringify(walls)
   const row = []
-  for (let i = 0; i < c; i += 1) {
+  for (let i = 0; i < c; i ++) {
     const temp = JSON.stringify([rowval, i])
     const wallBoolean = (wallString) ? wallString.includes(temp) : false
     row.push(<Cell
       cellval={i}
       key={i}
       wallBoolean={wallBoolean}
-      {...props}
+      walls={walls}
+	  c={c}
+	  rowval={rowval}
+	  drawing={drawing}
+	  activeItem={activeItem}
     />)
   }
-  return (
-    <div className="maze-row">
-      { row }
-    </div>
-  )
+  return <div className="maze-row">{ row }</div>
+
 }
+export default Row;

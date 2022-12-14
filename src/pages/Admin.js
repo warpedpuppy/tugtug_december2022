@@ -1,76 +1,59 @@
-import React from 'react'
-import Tabs from 'react-bootstrap/Tabs'
-import Tab from 'react-bootstrap/Tab'
-import NewGrid from './Admin/createGrid/NewGrid'
-import AllGrids from './Admin/AllMazes/AllGrids'
-import AdminHome from './Admin/AdminHome'
-import Login from './Admin/Login'
-import './Admin.css'
-import MazeService from '../services/maze-service'
-import TokenService from '../services/token-service'
-// import SiteContext from '../SiteContext'
-import DefaultMaze from '../defaults/DefaultMaze'
+import NewGrid from './Admin/createGrid/NewGrid';
+import AllGrids from './Admin/AllMazes/AllGrids';
+import AdminHome from './Admin/AdminHome';
+import Login from './Admin/Login';
+import './Admin.css';
+import MazeService from '../services/maze-service';
+import TokenService from '../services/token-service';
+import { Routes, Route, Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 
-export default class LoggedIn extends React.Component {
+const Admin = () => {
 
-  state = {mazes:[], loggedIn: false}
+	const [ mazes, setMazes ] = useState([]);
+	const [ loggedIn, setLoggedIn ] = useState(false);
 
-  addMaze = async (maze) => {
+	useEffect(() => {
+		loadMazes();
+		if (TokenService.getAuthToken()) setLoggedIn(true);
+	}, [])
 
-	await this.setState({mazes: [maze,  ...this.state.mazes]})
-	console.log(this.state.mazes)
-  }
-
-  deleteMaze = (index) => {
-	console.log(this.state.mazes[index])
-
-	let mazes = [...this.state.mazes];
-	mazes.splice(index, 1)
-	this.setState({mazes})
-
-	if (!this.state.mazes[index].temp) {
-		//remove from remote server
+	const addMaze = maze => {
+		setMazes([maze,  ...mazes]);
 	}
 
-  }
-
-  async componentDidMount () {
-	
-	let mazes = await MazeService.loadAllMazes();
-	this.setState({mazes})
-
-	if (TokenService.getAuthToken()) {
-		this.setState({loggedIn: true})
+	const deleteMaze = index => {
+		let temp = [...mazes];
+		temp.splice(index, 1)
+		setMazes(temp);
+		if (!mazes[index].temp) MazeService.deleteMaze(index);
 	}
-  }
 
-  loginHandler = () => {
-	this.setState({loggedIn: true})
-  }
-  logOutHandler = () => {
-	this.setState({loggedIn: false})
-  }
+	const loadMazes = async () => {
+		let mazes = await MazeService.loadAllMazes();
+		setMazes(mazes);
+	}
 
-  render () {
-	const { mazes, loggedIn } = this.state;
-      return (
-        <div className="general-page-layout">
-          <Tabs defaultActiveKey="home" id="uncontrolled-tab-example">
-            <Tab eventKey="home" title="Home">
-              <AdminHome />
-            </Tab>
-            <Tab eventKey="new-grid" title="new grid">
-              <NewGrid addMaze={ this.addMaze } loggedIn={loggedIn} />
-            </Tab>
-            <Tab eventKey="all-grids" title="all grids">
-              <AllGrids mazes={ mazes } deleteMaze={ this.deleteMaze } />
-            </Tab>
-            <Tab eventKey="admin" title="admin's admin">
-              <Login loginHandler={this.loginHandler} loggedIn={loggedIn} logOutHandler={this.logOutHandler}/>
-            </Tab>
-          </Tabs>
-        </div>
-      )
-    
-  }
+	const loginHandler = () => {
+		setLoggedIn(true);
+	}
+	const logOutHandler = () => {
+		setLoggedIn(false);
+	}
+
+	return (
+		<div className="general-page-layout">
+			<Link to={'new-maze'}>new maze</Link>
+			<Link to={'all-mazes'}>all mazes</Link>
+			<Link to={'admin-login'}>admin login</Link>
+			<Routes>
+				<Route index element={<AdminHome />} />
+				<Route path='new-maze' element={ <NewGrid addMaze={ addMaze } loggedIn={loggedIn} /> } />
+				<Route path='all-mazes' element={ <AllGrids mazes={ mazes } deleteMaze={ deleteMaze } /> } />
+				<Route path='admin-login' element={ <Login loginHandler={loginHandler} loggedIn={loggedIn} logOutHandler={logOutHandler}/> } />
+				<Route path='*' element={ <h1>not found</h1> } />
+			</Routes>
+		</div>
+	)
 }
+export default Admin;

@@ -34,7 +34,7 @@ export default class Login extends React.Component {
       this.setState({ errorMessage: '' })
       AuthApiService.postLogin(this.state.password)
         .then((result) => {
-			console.log(result)
+
           this.setState({ password: '', codeEnter: '' })
           if (result.login === true) {
             this.props.loginHandler();

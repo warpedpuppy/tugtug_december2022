@@ -1,56 +1,51 @@
-import React from 'react'
-import './NewGrid.css'
-import Button from 'react-bootstrap/Button'
-import Alert from 'react-bootstrap/Alert'
-import nextId from 'react-id-generator'
-import Select from './Select'
-import MazeService from '../../../services/maze-service'
-import Grid from './Grid'
+import { useState } from 'react';
+import './NewGrid.css';
+import Button from 'react-bootstrap/Button';
+import Alert from 'react-bootstrap/Alert';
+import nextId from 'react-id-generator';
+import Select from './Select';
+import MazeService from '../../../services/maze-service';
+import Grid from './Grid';
 
-export default class NewGrid extends React.Component {
-    state = {
-      r: 20,
-      c: 20,
-      activeItem: 'hero',
-      drawing: false,
-      feedback: ''
-    }
+const NewGrid = ({addMaze, loggedIn}) =>  {
 
+	const [ rows, setRows ] = useState(20);
+	const [ cols, setCols ] = useState(20);
+	const [ activeItem, setActiveItem ] = useState('hero');
+	const [ drawing, setDrawing ] = useState(false);
+	const [ feedback, setFeedback ] = useState('');
 
-    changeSize = (dimension, number) => {
+    const changeSize = (dimension, number) => {
       if (dimension === 'rows') {
-        this.setState({ r: number })
+        setRows(number)
       } else {
-        this.setState({ c: number })
+        setCols(number)
       }
     }
 
-    addItem = (x, activeItem) => {
-      this.setState({ activeItem })
+    const addItem = (x, activeItem) => {
+		setActiveItem(activeItem)
     }
 
-    onMouseDownHandler = () => {
-      this.setState({ drawing: true, feedback: '' })
+    const onMouseDownHandler = () => {
+		setDrawing(true);
+		setFeedback('')
     }
 
-    onMouseUpHandler = (e) => {
+    const onMouseUpHandler = e => {
       e.stopPropagation()
-      this.setState({ drawing: false })
+      setDrawing(false);
     }
 
-    clearMaze = () => {
+    const clearMaze = () => {
       const elems = document.querySelectorAll('.newGrid .cell')
-      elems.forEach((node) => {
+      elems.forEach( node => {
         node.classList.remove('hero')
         node.classList.remove('wall')
-        node.classList.remove('token1')
-        node.classList.remove('token2')
-        node.classList.remove('token3')
-        node.classList.remove('token4')
       })
     }
 
-    createObject = () => {
+    const createObject = () => {
       const cells = document.querySelectorAll('.newGrid .cell')
       const obj = {}
       const walls = []
@@ -59,99 +54,92 @@ export default class NewGrid extends React.Component {
         const row = node.getAttribute('rowval')
         const cell = node.getAttribute('cellval')
         const className = node.getAttribute('class')
-        if (className.includes('hero') ||
-                className.includes('token1') ||
-                className.includes('token2') ||
-                className.includes('token3') ||
-                className.includes('token4')
-        ) {
-			console.log
-          obj[className.substr(5).trim()] = [parseInt(row, 10), parseInt(cell, 10)]
+        if (className.includes('hero') ) {
+          obj['hero'] = [parseInt(row, 10), parseInt(cell, 10)]
         } else if (className.includes('wall')) {
           walls.push([parseInt(row, 10), parseInt(cell, 10)])
         }
       })
       obj.walls = walls
-      obj.c = this.state.c
-      obj.r = this.state.r
+      obj.c = cols
+      obj.r = rows
 
       return obj
     }
 
-    saveMazeHandler = async () => {
-      this.setState({ feedback: '' })
+    const saveMazeHandler = async () => {
 
-      const obj = this.createObject()
-      console.log('save maze handler = ', obj)
-	  // && obj.token1 && obj.token2 && obj.token3 && obj.token4
+	setFeedback('')
+      const obj = createObject()
+
+
       if (obj.hero) {
         let res = await MazeService.saveMaze(obj)
 
 		if (res.success) {
-			this.clearMaze();
-			this.props.addMaze(obj);
-			this.setState({ feedback: <Alert variant="success">maze entered!</Alert> })
+			clearMaze();
+			addMaze(obj);
+			setFeedback(<Alert variant="success">maze entered!</Alert>)
 		}
 
       } else {
-        this.setState({ feedback: <Alert variant="warning">you need to add everything</Alert> })
+		setFeedback(<Alert variant="warning">you need to have a hero!</Alert>)
       }
     }
 
-    tempSaveMazeHandler = () => {
-      this.setState({ feedback: '' })
+    const tempSaveMazeHandler = () => {
+      setFeedback('')
 
-      const obj = this.createObject()
+      const obj = createObject()
       obj.id = nextId()
-		console.log('temp maze handler', obj)
 
-		// && obj.token1 && obj.token2 && obj.token3 && obj.token4
       if (obj.hero) {
 		obj.temp = true;
-		this.props.addMaze(obj);
-        this.clearMaze()
-        this.setState({ feedback: <Alert variant="success">temporary maze entered!</Alert> })
+		addMaze(obj);
+        clearMaze()
+        setFeedback(<Alert variant="success">temp maze entered!</Alert>)
       } else {
-        this.setState({ feedback: <Alert variant="warning">you need to add everything</Alert> })
+        setFeedback(<Alert variant="warning">you need to have a hero!</Alert>)
       }
     }
-// 
-    render () {
-// this.props.loggedIn && 
+ 
+
+
        
       return (
         <div>
-		{ <Button variant="success" onClick={this.saveMazeHandler}>save maze</Button>}
-        <Button variant="success" onClick={this.tempSaveMazeHandler}>save temporary maze</Button>
+		{ loggedIn && <Button variant="success" onClick={saveMazeHandler}>save maze</Button>}
+        <Button variant="success" onClick={tempSaveMazeHandler}>save temporary maze</Button>
           <fieldset>
             <legend>build a new grid</legend>
             <Select
               title="rows"
-              changeSize={this.changeSize}
-              currentValue={this.state.rows}
-              array={Array.from(Array(51).keys()).splice(20)}
+              changeSize={changeSize}
+              currentValue={rows.toString()}
+              array={Array.from(Array(51).keys()).splice(rows)}
             />
             <Select
               title="cols"
-              changeSize={this.changeSize}
-              currentValue={this.state.cols}
-              array={Array.from(Array(51).keys()).splice(20)}
+              changeSize={changeSize}
+              currentValue={cols.toString()}
+              array={Array.from(Array(51).keys()).splice(cols)}
             />
             <Select
               title="place"
-              changeSize={this.addItem}
-              currentValue={this.state.activeItem}
-              array={['wall', 'hero', 'token1', 'token2', 'token3', 'token4', 'erase']}
+              changeSize={addItem}
+              currentValue={activeItem}
+              array={['wall', 'hero', 'erase']}
             />
            
           </fieldset>
-          { this.state.feedback}
+          { feedback}
           <hr />
-          <div onMouseDown={this.onMouseDownHandler} onMouseUp={this.onMouseUpHandler} className="grid newGrid">
-            <Grid {...this.state} />
+          <div onMouseDown={onMouseDownHandler} onMouseUp={onMouseUpHandler} className="grid newGrid">
+            <Grid r={rows} c={cols} drawing={drawing} activeItem={activeItem} />
           </div>
         </div>
 
       )
-    }
+    
 }
+export default NewGrid;
