@@ -2,7 +2,7 @@ import React from 'react'
 import Cell from './Cell'
 import './Row.css'
 
-const Row = ({ walls, c, rowval, drawing, activeItem }) => {
+const Row = ({ walls, c, rowval, drawing, activeItem, hero }) => {
 
   const wallString = JSON.stringify(walls)
   const row = []
@@ -14,6 +14,7 @@ const Row = ({ walls, c, rowval, drawing, activeItem }) => {
       key={i}
       wallBoolean={wallBoolean}
       walls={walls}
+	  hero={hero}
 	  c={c}
 	  rowval={rowval}
 	  drawing={drawing}
