@@ -13,11 +13,12 @@ import DefaultMaze from '../defaults/DefaultMaze'
 
 export default class LoggedIn extends React.Component {
 
-  state = {mazes:[DefaultMaze], loggedIn: false}
+  state = {mazes:[], loggedIn: false}
 
-  addMaze = (maze) => {
-	console.log(maze)
-	this.setState({mazes: [...this.state.mazes, maze]})
+  addMaze = async (maze) => {
+
+	await this.setState({mazes: [maze,  ...this.state.mazes]})
+	console.log(this.state.mazes)
   }
 
   deleteMaze = (index) => {
@@ -35,7 +36,7 @@ export default class LoggedIn extends React.Component {
 
   async componentDidMount () {
 	
-	let mazes = await MazeService.loadAllMazes()
+	let mazes = await MazeService.loadAllMazes();
 	this.setState({mazes})
 
 	if (TokenService.getAuthToken()) {

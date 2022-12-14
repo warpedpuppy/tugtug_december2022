@@ -46,19 +46,21 @@ export default class AllGrids extends React.Component {
 	}
 
     render () {
-		console.log('this one seems to miss hero', this.props.mazes[0])
+
           return (
           <>
             <div className="all-grids">
               {
 				
-                this.props.mazes.map((mazeObject, index) => (
+                this.props.mazes.map((mazeObject, index) => {
+						console.log(mazeObject)
+					return (
                   <DisplayMaze
                     key={index}
                     deleteMaze={() => this.triggerModal(index)}
                     {...mazeObject}
                   />
-                ))
+                )})
               }
             </div>
             <Modal show={this.state.show} onHide={this.handleClose}>

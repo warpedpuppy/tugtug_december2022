@@ -4,10 +4,7 @@ import DefaultMaze from '../defaults/DefaultMaze';
 import axios from 'axios';
 const MazeService = {
   mazes: [DefaultMaze],
-  addMazes(maze) {
 
-	if (maze) this.mazes.push(maze);
-  },
   getMazes() {
 	return this.mazes;
   },

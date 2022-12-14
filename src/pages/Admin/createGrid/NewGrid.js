@@ -65,6 +65,7 @@ export default class NewGrid extends React.Component {
                 className.includes('token3') ||
                 className.includes('token4')
         ) {
+			console.log
           obj[className.substr(5).trim()] = [parseInt(row, 10), parseInt(cell, 10)]
         } else if (className.includes('wall')) {
           walls.push([parseInt(row, 10), parseInt(cell, 10)])
@@ -102,7 +103,7 @@ export default class NewGrid extends React.Component {
 
       const obj = this.createObject()
       obj.id = nextId()
-
+		console.log('temp maze handler', obj)
 
 		// && obj.token1 && obj.token2 && obj.token3 && obj.token4
       if (obj.hero) {
