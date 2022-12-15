@@ -40,21 +40,18 @@ export default function () {
       this.flyTexture = this.utils.spritesheet.textures['grassSquareSmall.png']
       this.whiteSquare = this.utils.spritesheet.textures['whiteTile.png']
 
-
+		// this.cont = this.utils.root.kingCont;th
       return this
     },
 
     createObj (board) {
-		console.log(board)
       const obj = {}
       for (const arr of board.walls) {
         obj[`${arr[0]}_${arr[1]}`] = 'covered'
       }
-     
       return obj
     },
     buildGrid (data) {
-		console.log('build grid')
       this.cont.removeChildren()
       const mode = this.utils.root.activeMode
       const obj = this.createObj(this.activeMaze)
@@ -63,7 +60,6 @@ export default function () {
       let gridCircle
       this.cont.scale.set(1)
       this.cont.pivot = Assets.Point(0, 0)
-      // this[`${mode}Baddies`].removeCastlesAndSoldiers();
       this.wallHit = Config[`${mode}WallHit`]
       this.buffer = Config[`${mode}Buffer`]
       this.blockWidth = Config[`blockSize`][0]
@@ -78,26 +74,20 @@ export default function () {
       this.omnibusArray = []
 
       if (this.utils.root.all) {
-        this.omnibusArray = [
-          ...this.omnibusArray,
-          this.spaceShip,
-          this.microscope,
-          ...this.transitionItemsArray
-        ]
+        this.omnibusArray = []
       }
       // console.log(this.blocks)
-
       for (let i = 0; i < data.r; i++) {
         this.blocks[i] = []
         for (let j = 0; j < data.c; j++) {
           if (i === 0 || j === 0 || i === data.r - 1 || j === data.c - 1) {
-            obj[`${i}_${j}`] = 'covered'
+            obj[`${i}_${j}`] = 'covered';
           }
 
-          const bool = obj[`${i}_${j}`] === 'covered'
+          const bool = obj[`${i}_${j}`] === 'covered';
 
           if (!this.blockPool[counter]) {
-            // console.log("create new")
+
             b = Assets.Sprite()
             gridCircle = Assets.Sprite('gridCircle600.png')
             gridCircle.anchor.set(0.5)
@@ -124,11 +114,11 @@ export default function () {
           gridCircle.y = i * this.blockHeight + (this.blockHeight / 2)
 
           let token = false
-          if (obj[`${i}_${j}`] && obj[`${i}_${j}`].includes('token')) {
-            const num = obj[`${i}_${j}`].slice(-1)
-            token = true
-            this.tokenData[num] = { x: b.x, y: b.y }
-          }
+        //   if (obj[`${i}_${j}`] && obj[`${i}_${j}`].includes('token')) {
+        //     const num = obj[`${i}_${j}`].slice(-1)
+        //     token = true
+        //     this.tokenData[num] = { x: b.x, y: b.y }
+        //   }
 
           // store free ones
           const heroSpace = !!((String(i) === data.hero[0] && String(j) === data.hero[1]))
@@ -170,6 +160,7 @@ export default function () {
 
       this.cont.calculatedWidth = data.cols * this.blockWidth
       this.cont.calculatedHeight = data.rows * this.blockHeight
+	  this.utils.root.kingCont.addChild(this.cont)
       // this.changeBackground(this.utils.root.activeMode)
     },
     placeHero () {
