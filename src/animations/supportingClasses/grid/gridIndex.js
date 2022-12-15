@@ -82,6 +82,7 @@ export default function () {
       this.gridAction.setLimits()
     },
     animate () {
+		console.log(this.utils.root.activeAction.vx, this.utils.root.activeAction.vy)
       this.gridAction.animate(this.utils.root.activeAction.vx, this.utils.root.activeAction.vy)
     }
   }

@@ -87,19 +87,20 @@ const MazeAnimation = {
 
     //   this.utils.setHero(this.hero)
 
-    //   this.swim.init(this.kingCont)
+      this.swim.init(this.kingCont)
 
     //   this.keyHandler = KeyHandler()
 
     //   this.keyHandler.init(this)
 
-    //   this.activeAction = this.swim.addToStage()
+      this.activeAction = this.swim.addToStage()
 
    
     //   window.onresize = this.resize.resizeHandler.bind(this.resize)
  
 
       this.startGame()
+	//   this.kingCont.scale.set(0.05)
     },
     startGame () {
    
@@ -121,54 +122,6 @@ const MazeAnimation = {
 
       Tweens.killAll()
     },
-    earnToken (t) {
-      this.action = false
-      this.tokens.fillSlot(t)
-      setTimeout(this.resumePlayAfterEarnToken.bind(this), 2000)
-    },
-    resumePlayAfterEarnToken () {
-      // this.tokens.clearText();
-      this.action = true
-    },
-    startSpaceShipJourney () {
-      this.storeActiveMode = this.activeMode
-      this.hero.cont.visible = false
-      this.activeAction.vx = this.activeAction.vy = 0
-      this.grid.gridAction.pause = true
-      this[this.activeMode].startSpaceShipJourney()
-    },
-    endSpaceShipJourney () {
-      this.jump.removeFromStage()
-
-      this.switchPlayer(this.storeActiveMode)
-
-      this.grid.gridBuild.placeHero()
-
-      this.grid.gridBuild.cont.addChild(this.grid.gridBuild.spaceShip)
-
-      this.grid.gridAction.pause = false
-
-      this.activeAction.vx = this.activeAction.vy = 0
-
-      this.activeAction.radius = this.activeAction.storeRadius = 0
-
-      this[this.activeMode].endSpaceShipJourney()
-    },
-    makeJumpActive () {
-      this.jump.jumpBackground.pause = false
-      this.jump.jumpAction.pause = false
-      this.hero.cont.visible = true
-      // this.ship.parent.removeChild(this.ship);
-
-      this.switchPlayer('jump')
-      this.jump.jumpBackground.setUp()
-
-      if (Config.testingJump) {
-        const background = this.utils.root.jump.jumpBackground.orbsCont
-        background.scale.set(1)
-        this.jump.addToStage()
-      }
-    },
     reset () {
       this.tokens.reset()
 
@@ -178,12 +131,6 @@ const MazeAnimation = {
       this.keyHandler.addToStage()
 
       this.fullStop = false
-    },
-    filterTest () {
-      this.filterAnimation.filterToggle()
-    },
-    levelCompleteHandler () {
-      this.levelComplete.boardComplete()
     },
     animate () {
     //   Tweens.animate()
@@ -199,7 +146,7 @@ const MazeAnimation = {
 	MazeAnimation.clock.animate()
     //     this.filterAnimation.animate()
 	MazeAnimation.gears.animate()
-        // this.activeAction.animate();
+	MazeAnimation.activeAction.animate();
     //     this[this.activeMode].animate()
     //     if (this.activeMode === 'swim' || this.activeMode === 'fly') {
     //       this.grid.animate(this.activeAction.vx, this.activeAction.vy)

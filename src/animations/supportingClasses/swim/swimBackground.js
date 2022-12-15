@@ -1,7 +1,7 @@
 import Assets from '../../utils/assetCreation'
 import Utils from '../../utils/utils'
 import Tweens from '../../utils/Tweens'
-import FishSchool from './fishSchool'
+
 import LilypadsLotuses from './lilypadsLotuses'
 
 export default function () {
@@ -15,7 +15,7 @@ export default function () {
     utils: Utils,
     gridIndex: 5,
     lilypadLotuses: LilypadsLotuses(),
-    fishSchool: FishSchool(),
+
     init () {
       this.parentCont = this.utils.root.kingCont
       this.wh = this.utils.wh
@@ -56,7 +56,7 @@ export default function () {
       this.background.beginFill(0x3399ff).drawRect(0, 0, this.utils.canvasWidth, this.utils.canvasHeight).endFill()
     },
     addToStage () {
-      this.fishSchool.addToStage()
+
       this.parentCont.addChildAt(this.background, 0)
       // THIS IS HACKY AND SHOULD BE FIXED
       if (!this.utils.root.all) {

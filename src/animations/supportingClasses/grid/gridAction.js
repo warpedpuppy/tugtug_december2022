@@ -137,6 +137,7 @@ export default function () {
       return x[0]
     },
     animate (vx, vy) {
+		console.log(vx, vy)
       if (this.treasure.animationHappening) {
         this.treasure.animateSpecial()
       } else {
