@@ -1,8 +1,6 @@
 import Assets from '../../utils/assetCreation'
 import Utils from '../../utils/utils'
 import Config from '../../animations-config'
-import Coins from './items/flyAndSwimCoins/Coins'
-import Vortexes from './items/vortexes/vortexes'
 import GridResizeHandler from './gridResizeHandler'
 import GridItems from './items/gridItems'
 import SetTileLimits from './tiles/setTileLimits'
@@ -33,52 +31,33 @@ export default function () {
     omnibusArray: [],
     flyColors: [0x5713B8, 0xFF0F59, 0x4A34FF, 0x60B800, 0x0122FA],
     shipSpace: [],
-    coins: Coins(),
-    vortexes: Vortexes(),
     gridResizeHandler: GridResizeHandler(),
     gridItems: GridItems(),
-    init () {
+	activeMaze: undefined,
+    init (activeMaze) {
+
+		this.activeMaze = activeMaze;
       this.flyTexture = this.utils.spritesheet.textures['grassSquareSmall.png']
       this.whiteSquare = this.utils.spritesheet.textures['whiteTile.png']
-      this.tokens = this.utils.root.tokens.tokens
-      this.magicPillsArray = this.utils.root.grid.magicPillsArray
-      this.flyTreasureChests = this.utils.root.grid.flyTreasureChests
-      this.swimTreasureChests = this.utils.root.grid.swimTreasureChests
-      this.transitionItemsArray = this.utils.root.grid.transitionItemsArray
 
-      this.flyBaddies.init('fly')
-      this.swimBaddies.init('swim')
-
-      this.coins.onGridCoins = {
-        fly: [],
-        swim: []
-      }
 
       return this
     },
-    resetBaddies () {
-      this.flyBaddies.setArrays()
-      this.swimBaddies.setArrays()
-    },
+
     createObj (board) {
+		console.log(board)
       const obj = {}
       for (const arr of board.walls) {
         obj[`${arr[0]}_${arr[1]}`] = 'covered'
       }
-      obj[`${board.token1[0]}_${board.token1[1]}`] = 'token1'
-      obj[`${board.token2[0]}_${board.token2[1]}`] = 'token2'
-
-      if (!this.utils.root.all) {
-        obj[`${board.token3[0]}_${board.token3[1]}`] = 'token3'
-        obj[`${board.token4[0]}_${board.token4[1]}`] = 'token4'
-      }
-
+     
       return obj
     },
     buildGrid (data) {
+		console.log('build grid')
       this.cont.removeChildren()
       const mode = this.utils.root.activeMode
-      const obj = this.createObj(data)
+      const obj = this.createObj(this.activeMaze)
       let counter = 0
       let b
       let gridCircle
@@ -87,8 +66,8 @@ export default function () {
       // this[`${mode}Baddies`].removeCastlesAndSoldiers();
       this.wallHit = Config[`${mode}WallHit`]
       this.buffer = Config[`${mode}Buffer`]
-      this.blockWidth = Config[`${mode}BlockSize`][0]
-      this.blockHeight = Config[`${mode}BlockSize`][1]
+      this.blockWidth = Config[`blockSize`][0]
+      this.blockHeight = Config[`blockSize`][1]
       this.rowQ = data.r
       this.colQ = data.c
       this.freeSpaces = []
@@ -96,11 +75,7 @@ export default function () {
       this.coinSpaces = []
       this.blocks = {}
 
-      this.omnibusArray = [
-        ...this.magicPillsArray,
-        ...this[`${mode}TreasureChests`],
-        ...this.tokens
-      ]
+      this.omnibusArray = []
 
       if (this.utils.root.all) {
         this.omnibusArray = [
@@ -184,15 +159,6 @@ export default function () {
         this.microscopeClass.place()
       }
 
-      if (this.utils.root.all) {
-        this.gridItems.placeItems(this.transitionItemsArray, true)
-      }
-
-      this.gridItems.placeItems(this[`${mode}TreasureChests`])
-      this.gridItems.placeItems(this.magicPillsArray)
-      this.coins.placeCoins(this.coins.onGridCoins[mode])
-      this.utils.root.tokens.tokensClass.placeTokens()
-      this[`${mode}Baddies`].placeCastlesAndSoldiers(this)
 
       SetTileLimits.assignAboveBelowRightLeftCovered()
 

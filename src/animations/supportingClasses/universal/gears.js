@@ -29,9 +29,11 @@ export default function () {
       return this
     },
     addToStage () {
+		console.log('add gears to stage',  this.utils.root.kingCont.children.length, this.gears)
       for (let i = 0; i < 4; i++) {
         this.utils.root.kingCont.addChild(this.gears[i])
       }
+	  console.log('add gears to stage',  this.utils.root.kingCont.children.length)
     },
     removeFromStage () {
       for (let i = 0; i < 4; i++) {

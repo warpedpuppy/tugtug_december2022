@@ -8,7 +8,7 @@ import TokenService from '../services/token-service';
 import { Routes, Route, Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
-const Admin = () => {
+const Admin = ({setActiveMaze}) => {
 
 	const [ mazes, setMazes ] = useState([]);
 	const [ loggedIn, setLoggedIn ] = useState(false);
@@ -31,6 +31,8 @@ const Admin = () => {
 
 	const loadMazes = async () => {
 		let mazes = await MazeService.loadAllMazes();
+		console.log('active maze = ', mazes[0])
+		setActiveMaze(mazes[0]);
 		setMazes(mazes);
 	}
 

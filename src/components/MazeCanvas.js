@@ -3,13 +3,13 @@ import './MazeCanvas.css';
 import MazeAnimation from '../animations/maze-animation';
 import MazeService from '../services/maze-service';
 
-const MazeCanvas = () => {
+const MazeCanvas = ({activeMaze}) => {
 
 	const [ showStartScreen, setShowStartScreen ] = useState(true);
    
     useEffect(() => {
-		 MazeAnimation.init(this)
-	})
+		 MazeAnimation.init(this, activeMaze)
+	}, [])
        
     const startGame = () => {
       setShowStartScreen(false)

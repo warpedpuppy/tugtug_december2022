@@ -12,8 +12,8 @@ export default function () {
     wallHit: 0,
     itemLoopingQ: 0,
     init () {
-      this.blockWidth = Config[`${this.utils.root.activeMode}BlockSize`][0]
-      this.blockHeight = Config[`${this.utils.root.activeMode}BlockSize`][1]
+      this.blockWidth = Config[`blockSize`][0]
+      this.blockHeight = Config[`blockSize`][1]
 
       this.magicPillsArray = this.utils.root.grid.magicPillsArray
       this.transitionItemsArray = this.utils.root.grid.transitionItemsArray
@@ -29,12 +29,12 @@ export default function () {
 
       // this.omnibusArray = this.gridBuild.omnibusArray;
 
-      this.itemLoopingQ = Math.max(
-        this.magicPillsArray.length,
-        this.transitionItemsArray.length,
-        this.flyTreasureChests.length,
-        this.swimTreasureChests.length
-      )
+      this.itemLoopingQ = 0;//Math.max(
+    //     this.magicPillsArray.length,
+    //     this.transitionItemsArray.length,
+    //     this.flyTreasureChests.length,
+    //     this.swimTreasureChests.length
+    //   )
 
       this.heroCollisionDetector = {
         x: this.utils.canvasWidth / 2,
@@ -106,8 +106,8 @@ export default function () {
     },
     setLimits () {
       // console.log("here = ", this.utils.root.grid.boards[this.utils.root.grid.gridBuild.currentBoard])
-      this.blockWidth = Config[`${this.utils.root.activeMode}BlockSize`][0]
-      this.blockHeight = Config[`${this.utils.root.activeMode}BlockSize`][1]
+      this.blockWidth = Config[`blockSize`][0]
+      this.blockHeight = Config[`blockSize`][1]
 
       this.colQ = this.utils.root.grid.gridBuild.currentBoard.c
       this.rowQ = this.utils.root.grid.gridBuild.currentBoard.r

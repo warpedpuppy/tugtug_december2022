@@ -1,8 +1,5 @@
 import Utils from '../../utils/utils'
 import Config from '../../animations-config'
-import TransitionItems from './items/transition/transitionItems'
-import Treasure from './items/treasure/treasure'
-import MagicPills from './items/magic/magicPills'
 import GridBuild from './gridBuild'
 import GridAction from './gridAction'
 
@@ -12,52 +9,39 @@ export default function () {
     utils: Utils,
     boards: [],
     currentBoard: 0,
-    transitionItems: TransitionItems(),
-    magicPills: MagicPills(),
-    treasure: Treasure(),
     transitionItemsArray: [],
-    flyTreasureChests: [],
-    swimTreasureChests: [],
-    magicPillsArray: [],
     gridAction: GridAction(),
     gridBuild: GridBuild(),
-    init () {
+	activeMaze: undefined,
+    init (activeMaze) {
+
+	this.activeMaze = activeMaze;
       this.parent = this.utils.root
 
       this.parentCont = this.parent.kingCont
 
-      // this.boards = this.parent.dbData.boards;
 
-      this.magicPillsArray = this.magicPills.init()
-
-      this.treasure.init()
-
-      this.flyTreasureChests = this.treasure.createAndReturnChests(Config.flyTreasureChestQ)
-
-      this.swimTreasureChests = this.treasure.createAndReturnChests(Config.swimTreasureChestQ)
-
-      this.transitionItemsArray = this.transitionItems.init().build()
-
-      this.gridBuild.init()
+      this.gridBuild.init(this.activeMaze)
 
       this.gridAction.init()
-
+		this.changeGridSize ();
       // this.gridComplete = GridComplete.init();
 
       this.nextBoard = this.nextBoard.bind(this)
     },
     clearGrid () {
-      this.gridBuild[`${this.utils.root.activeMode}Baddies`].removeCastlesAndSoldiers()
+    //   this.gridBuild[`${this.utils.root.activeMode}Baddies`].removeCastlesAndSoldiers()
     },
     changeGridSize () {
-      const w = Config[`${this.parent.activeMode}BlockSize`][0]
-      const h = Config[`${this.parent.activeMode}BlockSize`][1]
+      const w = Config[`blockSize`][0]
+      const h = Config[`blockSize`][1]
 
       this.gridBuild.blockWidth = w
       this.gridBuild.blockHeight = h
 
       // console.log(this.boards[this.gridBuild.currentBoard])
-      this.gridBuild.buildGrid(this.boards[this.gridBuild.currentBoard])
+	  console.log(this.boards)
+      this.gridBuild.buildGrid(this.activeMaze)
 
       this.gridAction.setLimits()
     },
@@ -67,9 +51,9 @@ export default function () {
       })
 
       if (!id) {
-        this.gridBuild.currentBoard = this.boards[this.boards.length - 1]
+        this.gridBuild.currentBoard = this.activeMaze
       } else {
-        this.gridBuild.currentBoard = this.boards.find((board) => board.id === id)
+        this.gridBuild.currentBoard = this.activeMaze
       }
       this.gridBuild.cont.removeChildren()
       this.gridBuild.blocks = {}

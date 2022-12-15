@@ -10,23 +10,23 @@ export default {
   coins: [],
   opCounter: 0,
   init () {
-    this.ringQ = (this.utils.app.renderer instanceof PIXI.WebGLRenderer) ? Config.bounceTotalPoints : 100
-    for (let i = 0; i < this.ringQ; i++) {
-      this.lines.push(this.Graphics())
-      this.rings.push(this.Sprite('transparentRing.png'))
-    }
+    // this.ringQ = (this.utils.app.renderer instanceof PIXI.WebGLRenderer) ? Config.bounceTotalPoints : 100
+    // for (let i = 0; i < this.ringQ; i++) {
+    //   this.lines.push(this.Graphics())
+    //   this.rings.push(this.Sprite('transparentRing.png'))
+    // }
 
-    this.coinQ = (this.utils.app.renderer instanceof PIXI.WebGLRenderer) ? Config.flyCoinsPerTreasureChest : 10
-    for (let i = 0; i < this.coinQ; i++) {
-      const num = Math.ceil(Math.random() * 11)
-      // console.log(num)
-      this.coins.push(this.Sprite(`jewel${num}.png`))
-    }
+    // this.coinQ = (this.utils.app.renderer instanceof PIXI.WebGLRenderer) ? Config.flyCoinsPerTreasureChest : 10
+    // for (let i = 0; i < this.coinQ; i++) {
+    //   const num = Math.ceil(Math.random() * 11)
+    //   // console.log(num)
+    //   this.coins.push(this.Sprite(`jewel${num}.png`))
+    // }
 
-    this.opQ = (this.utils.app.renderer instanceof PIXI.WebGLRenderer) ? 300 : 50
-    for (let i = 0; i < this.opQ; i++) {
-      this.op.push(this.Sprite())
-    }
+    // this.opQ = (this.utils.app.renderer instanceof PIXI.WebGLRenderer) ? 300 : 50
+    // for (let i = 0; i < this.opQ; i++) {
+    //   this.op.push(this.Sprite())
+    // }
   },
   Point (x, y) {
     return new PIXI.Point(x, y)
@@ -37,8 +37,8 @@ export default {
   Loader () {
     return PIXI.Assets;
   },
-  Application (w, h, transParentBoolean) {
-    return new PIXI.Application(w, h, { transparent: transParentBoolean })
+  Application (obj) {
+    return new PIXI.Application(obj)
   },
   quadrupleSpriteSize (texture) {
     // texture should be 1000x500
@@ -78,7 +78,7 @@ export default {
     return new PIXI.extras.BitmapText(str, { font: '21px Hiragino Sans' })
   },
   Rope (texture, points) {
-    return new PIXI.mesh.Rope(texture, points)
+    return new PIXI.RopeGeometry(texture, points)
   },
   Texture (str) {
     return PIXI.Texture.fromFrame(str)
@@ -119,7 +119,7 @@ export default {
       return new PIXI.Sprite(this.utils.spritesheet.textures[str])
     }
     // if(test)console.log('from directory', str, this.utils.spritesheet)
-    return new PIXI.Sprite.fromImage(`/bmps/${str}`)
+    return PIXI.Sprite.from(`/bmps/${str}`)
   },
   Graphics () {
     return new PIXI.Graphics()

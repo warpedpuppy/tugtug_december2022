@@ -20,7 +20,7 @@ export default function () {
       this.parentCont = this.utils.root.kingCont
       this.wh = this.utils.wh
       this.lilypadLotuses.init(this.parentCont)
-      this.fishSchool.init(this.parentCont)
+    //   this.fishSchool.init(this.parentCont)
 
       this.cont = Assets.quadrupleSpriteSize(this.texture)// this.build(arr);
       this.cont2 = Assets.quadrupleSpriteSize(this.texture)// this.build(arr);

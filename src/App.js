@@ -5,9 +5,9 @@ import Home from './pages/Home';
 import Admin from './pages/Admin';
 import NotFound from './pages/NotFound';
 import Menu from './components/Menu';
-
+import DefaultMaze from './defaults/DefaultMaze';
 function App() {
-  const [ activeMaze, setActiveMaze ] = useState(undefined)
+  const [ activeMaze, setActiveMaze ] = useState(DefaultMaze)
   return (
     <BrowserRouter>
 	<Menu />

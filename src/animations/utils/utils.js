@@ -22,6 +22,7 @@ export default {
       canvasWidth: obj.canvasWidth
     }
     this.root = obj.root
+	console.log('properties are set!')
   },
   setWidthAndHeight (w, h) {
     this.canvasWidth = w

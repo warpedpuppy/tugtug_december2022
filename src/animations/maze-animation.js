@@ -32,53 +32,43 @@ const MazeAnimation = {
     frame: Assets.Graphics(),
     kingContBackground: Assets.Graphics(),
     resize: Resize(),
-    init (parent) {
+	loaded: false,
+	activeMaze: undefined,
+	assets: undefined,
+    init (parent, activeMaze) {
    
-      
+      this.activeMaze = activeMaze;
       this.utils.root = this
+	this.utils.getWidthAndHeight();
 
-      const app = this.app = Assets.Application(
-        this.utils.canvasWidth,
-        this.utils.canvasHeight,
-        true
-      )
-      document.getElementById('maze-canvas').appendChild(app.view)
+	  let { canvasHeight: height, canvasWidth: width } = this.utils;
+      const app = this.app = Assets.Application({width, height, backgroundAlpha: 0.5})
+
+
+      let mazeCanvas = document.getElementById('maze-canvas');
+	  mazeCanvas.width = this.utils.canvasWidth;
+	  mazeCanvas.height = this.utils.canvasHeight;
+	  mazeCanvas.appendChild(app.view)
+
       this.stage = app.stage
       this.stage.addChild(this.kingCont)
 
-    //   if (!this.loader.resources['/ss/ss.json']) {
-	async function load(){
-		// console.log(PIXI)
-			const asset = await PIXI.Assets.loader.load('/ss/ss.json');
-			console.log(asset);
+   
+		const load = async () => {
+			if (this.loaded) return;
+			this.loaded = true;
+			this.assets = await PIXI.Assets.loader.load('/ss/ss.json');
+			if (this.assets) this.buildGame()
 		}
-	load();
-		// console.log(this.loader)
-        // this.loader.load(['/ss/ss.json'])
-		// this.loader.onProgress()
-		// .then(() => console.log('load complete'))
-    //   } else {
-        // this.loadDB()
-    //   }
-    },
-    async loadDB () {
-      try {
-        const res = await MazeServices.getOneMaze(this.id)
-        if (res.result && res.result === "none") {
-          this.grid.boards = [...this.grid.boards, ...DefaultMaze]
-        } else {
-           this.grid.boards = [...this.grid.boards, ...res]
-        }
-      } catch (e) {
-        this.grid.boards = [...this.grid.boards, ...DefaultMaze]
-      }
-      this.buildGame()
+		load();
+		
     },
     buildGame () {
-      const { spritesheet } = this.loader.resources['/ss/ss.json']
+
+	this.grid.boards = [this.activeMaze];
 
       this.utils.setProperties({
-        spritesheet,
+        spritesheet: this.assets,
         canvasWidth: this.utils.canvasWidth,
         canvasHeight: this.utils.canvasHeight,
         app: this.app,
@@ -91,58 +81,34 @@ const MazeAnimation = {
 
       this.clock.init().addToStage()
 
-      this.tokens.init()
+      this.grid.init(this.activeMaze)
 
-      this.grid.init()
+    //   this.hero.init(this.kingCont)
 
-      this.hero.init(this.kingCont)
+    //   this.utils.setHero(this.hero)
 
-      if (this.isMobileOnly) {
-        this.hero.cont.scale.set(Config.mobileOnlyScalingSwim)
-      }
+    //   this.swim.init(this.kingCont)
 
-      this.utils.setHero(this.hero)
+    //   this.keyHandler = KeyHandler()
 
-      this.filterAnimation.init(this.filterContainer)
+    //   this.keyHandler.init(this)
 
-      this.swim.init(this.kingCont)
+    //   this.activeAction = this.swim.addToStage()
 
-      this.keyHandler = KeyHandler()
-
-      this.keyHandler.init(this)
-
-      this.activeAction = this[this.activeMode].addToStage()
-
-      if (this.isMobile) {
-        this.controlPanel.init(this)
-        this.controlPanel.addToStage()
-      }
-
-      if (this.isMobile) {
-        // mobile
-        this.orientationChange.init(this)
-      } else {
-        window.onresize = this.resize.resizeHandler.bind(this.resize)
-      }
+   
+    //   window.onresize = this.resize.resizeHandler.bind(this.resize)
+ 
 
       this.startGame()
     },
     startGame () {
-      if (!this.isMobile) {
-        this.app.ticker.add(this.animateDesktopIpad)
-        this.keyHandler.addToStage()
-      } else {
-        this.app.ticker.add(this.animateMobile)
-      }
+   
+        this.app.ticker.add(this.animate)
+        // this.keyHandler.addToStage()
+     
 
-      if (Config.testingJump) {
-        this.makeJumpActive()
-      }
-      if (this.showFPS) this.app.stage.addChild(this.fpsCounter)
-      // this.animations.circles({start: true, expand: true});
-
-      this.hero.addToStage()
-      LoadingAnimation.stop(this.kingCont)
+    //   this.hero.addToStage()
+    //   LoadingAnimation.stop(this.kingCont)
     },
     stop () {
       window.onresize = undefined
@@ -216,36 +182,29 @@ const MazeAnimation = {
     filterTest () {
       this.filterAnimation.filterToggle()
     },
-    animateMobile () {
-      this.orientationChange.animate()
-      this.animate()
-    },
-    animateDesktopIpad () {
-      this.animate()
-    },
     levelCompleteHandler () {
       this.levelComplete.boardComplete()
     },
     animate () {
-      Tweens.animate()
+    //   Tweens.animate()
 
-      if (this.fullStop) return
+    //   if (this.fullStop) return
 
-      if (this.action) {
-        if (this.rotateLeftBoolean) {
-          this.activeAction.rotate('left')
-        } else if (this.rotateRightBoolean) {
-          this.activeAction.rotate('right')
-        }
-        this.clock.animate()
-        this.filterAnimation.animate()
-        this.gears.animate()
+    //   if (this.action) {
+    //     if (this.rotateLeftBoolean) {
+    //       this.activeAction.rotate('left')
+    //     } else if (this.rotateRightBoolean) {
+    //       this.activeAction.rotate('right')
+    //     }
+	MazeAnimation.clock.animate()
+    //     this.filterAnimation.animate()
+	MazeAnimation.gears.animate()
         // this.activeAction.animate();
-        this[this.activeMode].animate()
-        if (this.activeMode === 'swim' || this.activeMode === 'fly') {
-          this.grid.animate(this.activeAction.vx, this.activeAction.vy)
-        }
-      }
+    //     this[this.activeMode].animate()
+    //     if (this.activeMode === 'swim' || this.activeMode === 'fly') {
+    //       this.grid.animate(this.activeAction.vx, this.activeAction.vy)
+    //     }
+    //   }
     }
 }
 export default MazeAnimation;

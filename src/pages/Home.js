@@ -1,10 +1,13 @@
 import MazeCanvas from '../components/MazeCanvas';
 
 const Home = ({activeMaze}) => {
-	return (<>
+
+	return (
+	<>
 	<h1>activeMaze: {activeMaze?.id} </h1>
-	<MazeCanvas />
-	</>);
+	<MazeCanvas activeMaze={activeMaze}/>
+	</>
+	);
 }
  
 export default Home;
