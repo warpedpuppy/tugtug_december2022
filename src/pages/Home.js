@@ -1,5 +1,10 @@
-const Home = () => {
-	return <h1>home</h1>;
+import MazeCanvas from '../components/MazeCanvas';
+
+const Home = ({activeMaze}) => {
+	return (<>
+	<h1>activeMaze: {activeMaze?.id} </h1>
+	<MazeCanvas />
+	</>);
 }
  
 export default Home;

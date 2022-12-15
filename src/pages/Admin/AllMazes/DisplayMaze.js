@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button';
-import Grid from '../createGrid/Grid';
+import Grid from '../Grid/Grid';
 import './DisplayMaze.css';
 
 const DisplayMaze = ({c, r, walls, hero, id, deleteMaze, defaultMaze}) => {

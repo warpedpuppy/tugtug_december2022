@@ -5,7 +5,7 @@ import Alert from 'react-bootstrap/Alert';
 import nextId from 'react-id-generator';
 import Select from './Select';
 import MazeService from '../../../services/maze-service';
-import Grid from './Grid';
+import Grid from '../Grid/Grid';
 
 const NewGrid = ({addMaze, loggedIn}) =>  {
 
