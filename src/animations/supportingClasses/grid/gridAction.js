@@ -49,14 +49,15 @@ export default function () {
       const halfCanvasHeight = (this.utils.canvasHeight / 2)
       const iVal = Math.floor((halfCanvasHeight - this.gridBuild.cont.y) / this.blockHeight)
       const jVal = Math.floor((halfCanvasWidth - this.gridBuild.cont.x) / this.blockWidth)
-      const { blocks } = this.utils.root.grid.gridBuild
+      const { blocks } = this.utils.root.grid.gridBuild;
+	  this.glow(iVal, jVal)
       return { block: blocks[iVal][jVal], i: iVal, j: jVal }
     },
     glow (i, j) {
-    //   if (this.glow.obj === undefined) {
-    //     this.glow.obj = { i: 1, j: 1 }
-    //   }
-    //   if (i !== this.glow.obj.i || j !== this.glow.obj.j) {
+      if (this.glow.obj === undefined) {
+        this.glow.obj = { i: 1, j: 1 }
+      }
+      if (i !== this.glow.obj.i || j !== this.glow.obj.j) {
         const { blocks } = this.utils.root.grid.gridBuild
         const currentBlock = blocks[this.glow.obj.i][this.glow.obj.j]
         Tweens.tween(currentBlock, 0.15, { alpha: [0.75, 0.25] })
@@ -69,7 +70,7 @@ export default function () {
         Tweens.tween(newBlock.gridCircle, 3, { rotation: [0, ninetyDegrees] },
           undefined, 'easeOutElastic')
         this.glow.obj = { i, j }
-    //   }
+      }
     },
     createBoundaries (currentSquare) {
       const { i } = currentSquare
