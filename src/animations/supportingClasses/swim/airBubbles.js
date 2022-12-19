@@ -35,7 +35,7 @@ export default function () {
       this.lilypads = this.utils.lilypads.array
     },
     fishExhale () {
-      // console.log(this.lilypads)
+      // // console(this.lilypads)
       if (!this.lilypads) return
       for (let j = 0; j < this.lilypads.length; j++) {
         const ab = this.expand[0]

@@ -60,8 +60,8 @@ export default function () {
       let gridCircle
       this.cont.scale.set(1)
       this.cont.pivot = Assets.Point(0, 0)
-      this.wallHit = Config[`${mode}WallHit`]
-      this.buffer = Config[`${mode}Buffer`]
+      this.wallHit = Config[`swimWallHit`]
+      this.buffer = 200;//Config[`swimBuffer`]
       this.blockWidth = Config[`blockSize`][0]
       this.blockHeight = Config[`blockSize`][1]
       this.rowQ = data.r
@@ -76,7 +76,7 @@ export default function () {
       if (this.utils.root.all) {
         this.omnibusArray = []
       }
-      // console.log(this.blocks)
+      // // console(this.blocks)
       for (let i = 0; i < data.r; i++) {
         this.blocks[i] = []
         for (let j = 0; j < data.c; j++) {
@@ -95,7 +95,7 @@ export default function () {
             this.blockPool.push(b)
             this.gridCirclePool.push(gridCircle)
           } else {
-            // console.log("use old")
+            // // console("use old")
             b = this.blockPool[counter]
             gridCircle = this.gridCirclePool[counter]
           }

@@ -39,8 +39,8 @@ export default function () {
       this.gridBuild.blockWidth = w
       this.gridBuild.blockHeight = h
 
-      // console.log(this.boards[this.gridBuild.currentBoard])
-	  console.log(this.boards)
+      // // console(this.boards[this.gridBuild.currentBoard])
+	  // console(this.boards)
       this.gridBuild.buildGrid(this.activeMaze)
 
       this.gridAction.setLimits()
@@ -82,7 +82,7 @@ export default function () {
       this.gridAction.setLimits()
     },
     animate () {
-		console.log(this.utils.root.activeAction.vx, this.utils.root.activeAction.vy)
+		// // console(this.utils.root.activeAction.vx, this.utils.root.activeAction.vy)
       this.gridAction.animate(this.utils.root.activeAction.vx, this.utils.root.activeAction.vy)
     }
   }

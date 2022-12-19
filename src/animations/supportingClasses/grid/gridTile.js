@@ -67,7 +67,7 @@
 // 			// ];
 
 //   			//this.boards = this.utils.root.dbData.boards;
-//   			// console.log('this grid build init')
+//   			// // console('this grid build init')
 // 			// this.buildGrid(this.boards[this.currentBoard]);
 
 // 			this.flyBaddies.init('fly');
@@ -261,18 +261,18 @@
 // 			let coinSpaceUse = Math.floor(Math.random()* 10) < 5;
 // 			if (this.freeSpaces.length === 0 || (coinSpacePossible && coinSpaceUse)) {
 // 				//add coin to space which currently has other coins
-// 				//console.log('add coin to new already used coin space')
+// 				//// console('add coin to new already used coin space')
 // 				let i = Math.floor(Math.random()*this.coinSpaces.length);
 // 				coin.x = this.coinSpaces[i][0] + this.blockWidth / 2;
 // 				coin.y = this.coinSpaces[i][1] + this.blockHeight / 2;
 // 				coin.currentSpace = this.freeSpaces[i];
 // 				this.cont.addChild(coin);
 // 			} else {
-// 				//console.log('add coin to new free space')
+// 				//// console('add coin to new free space')
 // 				//place it on a free space
 
 // 				let i = Math.floor(Math.random()*this.freeSpaces.length);
-// 				console.log(this.freeSpaces.length, i)
+// 				// console(this.freeSpaces.length, i)
 
 // 				coin.x = this.freeSpaces[i][0] + this.blockWidth / 2;
 // 				coin.y = this.freeSpaces[i][1] + this.blockHeight / 2;
@@ -351,7 +351,7 @@
 // 		},
 // 		moveItem2: function (item) {
 // 			//alert("grow")
-// 			//console.log("two hit")
+// 			//// console("two hit")
 // 			//let onCompleteHandler = ;
 // 			Tweens.tween(item.scale, 1,
 // 				{
@@ -504,7 +504,7 @@
 // 	                this.blocks[i][j].left = left;
 // 	                this.blocks[i][j].leftCovered = left.covered;
 
-// 	               // console.log(above, right, left, below)
+// 	               // // console(above, right, left, below)
 // 	            }
 // 	        }
 // 		}

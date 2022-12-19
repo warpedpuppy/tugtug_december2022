@@ -31,7 +31,7 @@ const Admin = ({setActiveMaze}) => {
 
 	const loadMazes = async () => {
 		let mazes = await MazeService.loadAllMazes();
-		console.log('active maze = ', mazes[0])
+		// console('active maze = ', mazes[0])
 		setActiveMaze(mazes[0]);
 		setMazes(mazes);
 	}

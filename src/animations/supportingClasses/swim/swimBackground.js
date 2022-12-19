@@ -73,24 +73,7 @@ export default function () {
       this.parentCont.removeChild(this.cont2)
       this.parentCont.removeChild(this.cont)
     },
-    startSpaceShipJourney () {
-      Tweens.tween(this.fishSchool.fishCont, 1, { alpha: [1, 0] })
-      Tweens.tween(this.fishSchool.sharkCont, 1, { alpha: [1, 0] })
-      Tweens.tween(this.lilypadLotuses.cont, 1, { alpha: [1, 0] })
-      Tweens.tween(this.cont, 1, { alpha: [1, 0] })
-      Tweens.tween(this.cont2, 1, { alpha: [1, 0] })
-    },
-    endSpaceShipJourney () {
-      Tweens.tween(this.fishSchool.fishCont, 1, { alpha: [0, 1] })
-      Tweens.tween(this.fishSchool.sharkCont, 1, { alpha: [0, 1] })
-      Tweens.tween(this.lilypadLotuses.cont, 1, { alpha: [0, 1] })
-      Tweens.tween(this.cont, 1, { alpha: [0, 0.15] })
-      Tweens.tween(this.cont2, 1, { alpha: [0, 0.5] })
-    },
     animate () {
-      this.fishSchool.animate()
-
-      this.lilypadLotuses.animate()
 
       this.cont2.x += this.cont2.vx
       this.cont2.y += this.cont2.vy

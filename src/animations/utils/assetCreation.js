@@ -19,7 +19,7 @@ export default {
     // this.coinQ = (this.utils.app.renderer instanceof PIXI.WebGLRenderer) ? Config.flyCoinsPerTreasureChest : 10
     // for (let i = 0; i < this.coinQ; i++) {
     //   const num = Math.ceil(Math.random() * 11)
-    //   // console.log(num)
+    //   // // console(num)
     //   this.coins.push(this.Sprite(`jewel${num}.png`))
     // }
 
@@ -115,10 +115,10 @@ export default {
       return new PIXI.Sprite()
     }
     if (this.utils.spritesheet && this.utils.spritesheet.textures[str]) {
-      // if(test)console.log('from spritesheet', str)
+      // if(test)// console('from spritesheet', str)
       return new PIXI.Sprite(this.utils.spritesheet.textures[str])
     }
-    // if(test)console.log('from directory', str, this.utils.spritesheet)
+    // if(test)// console('from directory', str, this.utils.spritesheet)
     return PIXI.Sprite.from(`/bmps/${str}`)
   },
   Graphics () {

@@ -59,7 +59,7 @@ export default function () {
           ring.scale.set(1)
         } else if (this.expand && ring.scale.x > 1) {
           ring.scale.set(0)
-          console.log(ring.scale.x)
+          // console(ring.scale.x)
         }
       })
     }

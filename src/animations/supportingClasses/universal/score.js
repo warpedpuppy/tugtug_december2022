@@ -86,7 +86,7 @@
 // 		button.rotation = button.finalDest;
 // 	},
 // 	nextLevel: function () {
-// 		//console.log('assign ', this.grandTotal, 'to', this.storeTotal)
+// 		//// console('assign ', this.grandTotal, 'to', this.storeTotal)
 // 		this.storeTotal += this.grandTotal;
 // 		this.flyPoints = 0;
 // 		this.swimPoints = 0;
@@ -194,7 +194,7 @@
 // 	treasureIncrease: function () {
 // 		let activeMode = this.utils.root.activeMode;
 // 		this[`${activeMode}Points`] += Config[`${activeMode}CoinsPerTreasureChest`];
-// 		console.log(activeMode,this[`${activeMode}Points`],  Config[`${activeMode}CoinsPerTreasureChest`])
+// 		// console(activeMode,this[`${activeMode}Points`],  Config[`${activeMode}CoinsPerTreasureChest`])
 // 		this.scoreTexts[`${activeMode}Text`].text = `dragon points: ${this[`${activeMode}Points`]} / ${this[`${activeMode}Total`]}`;
 // 	},
 // 	treasureChange: function (str) {
@@ -205,7 +205,7 @@
 // 		} else if (str === 'up') {
 // 			this[`${activeMode}Points`] ++;
 // 		}
-// 		console.log(activeMode,this[`${activeMode}Points`],  Config[`${activeMode}CoinsPerTreasureChest`])
+// 		// console(activeMode,this[`${activeMode}Points`],  Config[`${activeMode}CoinsPerTreasureChest`])
 // 		this.scoreTexts[`${activeMode}Text`].text = `dragon points: ${this[`${activeMode}Points`]} / ${this[`${activeMode}Total`]}`;
 // 	},
 // 	jumpDotHit: function (str) {

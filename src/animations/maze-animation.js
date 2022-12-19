@@ -35,6 +35,8 @@ const MazeAnimation = {
 	loaded: false,
 	activeMaze: undefined,
 	assets: undefined,
+	rotateLeftBoolean: false, 
+	rotateRightBoolean: false,
     init (parent, activeMaze) {
    
       this.activeMaze = activeMaze;
@@ -83,18 +85,18 @@ const MazeAnimation = {
 
       this.grid.init(this.activeMaze)
 
-    //   this.hero.init(this.kingCont)
+      this.hero.init(this.kingCont)
 
-    //   this.utils.setHero(this.hero)
+      this.utils.setHero(this.hero)
 
       this.swim.init(this.kingCont)
 
-    //   this.keyHandler = KeyHandler()
+      this.keyHandler = KeyHandler
 
-    //   this.keyHandler.init(this)
+     
 
       this.activeAction = this.swim.addToStage()
-
+	  this.keyHandler.init(this)
    
     //   window.onresize = this.resize.resizeHandler.bind(this.resize)
  
@@ -105,10 +107,10 @@ const MazeAnimation = {
     startGame () {
    
         this.app.ticker.add(this.animate)
-        // this.keyHandler.addToStage()
+        this.keyHandler.addToStage()
      
 
-    //   this.hero.addToStage()
+      this.hero.addToStage();
     //   LoadingAnimation.stop(this.kingCont)
     },
     stop () {
@@ -133,25 +135,16 @@ const MazeAnimation = {
       this.fullStop = false
     },
     animate () {
-    //   Tweens.animate()
-
-    //   if (this.fullStop) return
-
-    //   if (this.action) {
-    //     if (this.rotateLeftBoolean) {
-    //       this.activeAction.rotate('left')
-    //     } else if (this.rotateRightBoolean) {
-    //       this.activeAction.rotate('right')
-    //     }
-	MazeAnimation.clock.animate()
-    //     this.filterAnimation.animate()
-	MazeAnimation.gears.animate()
-	MazeAnimation.activeAction.animate();
-    //     this[this.activeMode].animate()
-    //     if (this.activeMode === 'swim' || this.activeMode === 'fly') {
-    //       this.grid.animate(this.activeAction.vx, this.activeAction.vy)
-    //     }
-    //   }
+		Tweens.animate()
+		if (MazeAnimation.rotateLeftBoolean) {
+			MazeAnimation.activeAction.rotate('left')
+		} else if (MazeAnimation.rotateRightBoolean) {
+			MazeAnimation.activeAction.rotate('right')
+		}
+		MazeAnimation.clock.animate()
+		MazeAnimation.gears.animate()
+		MazeAnimation.activeAction.animate();
+		MazeAnimation.grid.animate(MazeAnimation.activeAction.vx, MazeAnimation.activeAction.vy)
     }
 }
 export default MazeAnimation;

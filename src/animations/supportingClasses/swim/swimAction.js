@@ -35,14 +35,13 @@ export default function () {
     },
     rotate (str) {
       const obj = this.rotateFunction.rotate(str, this)
+
       this.vx = -obj.vx
       this.vy = -obj.vy
+	  this.hero.cont.rotation += str === 'right' ? 0.1 : -0.1;
     },
     resize () {
       this.airBubbles.resize()
-    },
-    fire (boolean) {
-      this.flameOn = this.flames.visible = boolean
     },
     animate () {
    

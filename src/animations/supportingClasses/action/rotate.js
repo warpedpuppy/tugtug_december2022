@@ -15,7 +15,7 @@ export default function () {
       if (str === 'right') {
         this.idle = false
         activeAction.radius += this.movementQ
-        this.velocity = this.config[`${this.utils.root.activeMode}Velocity`]
+        this.velocity = this.config[`swimVelocity`]
         this.vx = this.velocity * Math.sin(activeAction.radius)
         this.vy = -this.velocity * Math.cos(activeAction.radius)
         activeAction.storeRadius = activeAction.radius
@@ -23,15 +23,15 @@ export default function () {
       } else if (str === 'left') {
         this.idle = false
         activeAction.radius -= this.movementQ
-        this.velocity = this.config[`${this.utils.root.activeMode}Velocity`]
+        this.velocity = this.config[`swimVelocity`]
         this.vx = this.velocity * Math.sin(activeAction.radius)
         this.vy = -this.velocity * Math.cos(activeAction.radius)
         activeAction.storeRadius = activeAction.radius
         returnObj = { vx: -this.vx, vy: -this.vy }
       }
-      // console.log(activeAction.radius)
+      // // console(activeAction.radius)
 
-      // console.log(returnObj)
+      // // console(returnObj)
       return returnObj
     },
     addToStage () {
