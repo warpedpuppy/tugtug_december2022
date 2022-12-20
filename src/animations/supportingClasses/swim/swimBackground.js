@@ -2,7 +2,6 @@ import Assets from '../../utils/assetCreation'
 import Utils from '../../utils/utils'
 import Tweens from '../../utils/Tweens'
 
-import LilypadsLotuses from './lilypadsLotuses'
 
 export default function () {
   return {
@@ -14,13 +13,10 @@ export default function () {
     sizeIncrement: 2,
     utils: Utils,
     gridIndex: 5,
-    lilypadLotuses: LilypadsLotuses(),
 
     init () {
       this.parentCont = this.utils.root.kingCont
       this.wh = this.utils.wh
-      this.lilypadLotuses.init(this.parentCont)
-    //   this.fishSchool.init(this.parentCont)
 
       this.cont = Assets.quadrupleSpriteSize(this.texture)// this.build(arr);
       this.cont2 = Assets.quadrupleSpriteSize(this.texture)// this.build(arr);
@@ -64,11 +60,8 @@ export default function () {
         const index = 0// this.utils.root.kingCont.getChildIndex(this.utils.root.score.topBanner) - 1;
         this.parentCont.addChildAt(this.cont, index)
       }
-      this.lilypadLotuses.addToStage()
     },
     removeFromStage () {
-      this.fishSchool.removeFromStage()
-      this.lilypadLotuses.removeFromStage()
       this.parentCont.removeChild(this.background)
       this.parentCont.removeChild(this.cont2)
       this.parentCont.removeChild(this.cont)

@@ -37,42 +37,47 @@ const MazeAnimation = {
 	assets: undefined,
 	rotateLeftBoolean: false, 
 	rotateRightBoolean: false,
-	storeMaze: undefined,
-    init (parent, activeMaze) {
+	mazeCanvas: undefined,
+    init (activeMaze) {
+
+
+
+			console.log("INIT")
+			this.activeMaze = activeMaze;
+			this.utils.root = this
+			this.utils.getWidthAndHeight();
+
 		
-      this.activeMaze = activeMaze;
-      this.utils.root = this
-	this.utils.getWidthAndHeight();
-
-	  let { canvasHeight: height, canvasWidth: width } = this.utils;
-      const app = this.app = Assets.Application({width, height, backgroundAlpha: 0.5})
-
-
-      let mazeCanvas = document.getElementById('maze-canvas');
-	 
-	  mazeCanvas.width = this.utils.canvasWidth;
-	  mazeCanvas.height = this.utils.canvasHeight;
-	  mazeCanvas.appendChild(app.view)
-      this.stage = app.stage
-      this.stage.addChild(this.kingCont)
-
-   
-	const load = async () => {
-		console.log('loaded check', this.loaded)
-		if (this.loaded) { this.buildGame(); return;}
-		console.log('1')
-		this.loaded = true;
-		console.log('2')
-		this.assets = await PIXI.Assets.loader.load('/ss/ss.json');
-		console.log("LOAD GAME", this.assets)
-		if (this.assets) this.buildGame()
-		console.log('3')
-	}
-	load();
+			let { canvasHeight: height, canvasWidth: width } = this.utils;
+			this.app = Assets.Application({width, height, backgroundAlpha: 1})
+			this.mazeCanvas = document.getElementById('maze-canvas');
+			this.mazeCanvas.width = this.utils.canvasWidth;
+			this.mazeCanvas.height = this.utils.canvasHeight;
+			this.mazeCanvas.appendChild(this.app.view)
+			this.stage = this.app.stage
+			this.stage.addChild(this.kingCont)
 		
+
+
+
+
+
+		const load = async () => {
+			this.loaded = true;
+			try {
+				this.assets = await PIXI.Assets.loader.load('/ss/ss.json');
+				if (this.assets) this.buildGame()
+			} catch (e) {
+				
+			}
+			
+		}
+		if (!this.loaded) {load();} else this.resetGame();
+		
+
     },
     buildGame () {
-		console.log("BUILD GAME", this.activeMaze)
+		console.log("BUILD GAME", this.activeMaze, this.assets)
 		this.grid.boards = [this.activeMaze];
 
       this.utils.setProperties({
@@ -92,42 +97,45 @@ const MazeAnimation = {
       this.grid.init(this.activeMaze)
 
       this.hero.init(this.kingCont)
-
       this.utils.setHero(this.hero)
-
       this.swim.init(this.kingCont)
-
       this.keyHandler = KeyHandler
-
-     
-
       this.activeAction = this.swim.addToStage()
 	  this.keyHandler.init(this)
-   
-    //   window.onresize = this.resize.resizeHandler.bind(this.resize)
- 
-
+      window.onresize = this.resize.resizeHandler.bind(this.resize)
       this.startGame()
-	//   this.kingCont.scale.set(0.05)
     },
+	resetGame () {
+
+		this.grid.boards = [this.activeMaze];
+
+		this.stage.addChild(this.kingCont)
+		this.gears.addToStage();
+		this.clock.init().addToStage();
+		this.activeAction = this.swim.addToStage()
+		this.keyHandler.init(this);
+		this.hero.init(this.kingCont)
+		this.utils.setHero(this.hero)
+		this.grid.init(this.activeMaze)
+		this.startGame()
+	},
     startGame () {
    
-        this.app.ticker.add(this.animate)
-        this.keyHandler.addToStage()
-     
-
-      this.hero.addToStage();
-    //   LoadingAnimation.stop(this.kingCont)
+		this.app.ticker.add(this.animate)
+		this.keyHandler.addToStage()
+		this.hero.addToStage();
     },
     stop () {
       window.onresize = undefined
+	  this.stage.removeChildren();
 	  this.kingCont.removeChildren();
 	  this.gears.removeFromStage();
 	  this.hero.removeFromStage();
-	// 	this.swim.removeFromStage();
+		this.swim.removeFromStage();
+	this.grid.removeFromStage();
+	this.keyHandler.removeFromStage();
       this.clock.removeFromStage()
-      this.app.destroy(true);
-
+      this.app.destroy();
       Tweens.killAll()
     },
     reset () {
@@ -149,7 +157,7 @@ const MazeAnimation = {
 		}
 		MazeAnimation.clock.animate()
 		MazeAnimation.gears.animate()
-		MazeAnimation.activeAction.animate();
+		MazeAnimation.swim.animate();
 		MazeAnimation.grid.animate(MazeAnimation.activeAction.vx, MazeAnimation.activeAction.vy)
     }
 }

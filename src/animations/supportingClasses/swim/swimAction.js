@@ -41,7 +41,7 @@ export default function () {
 	  this.hero.cont.rotation += str === 'right' ? 0.1 : -0.1;
     },
     resize () {
-      this.airBubbles.resize()
+
     },
     animate () {
    

@@ -25,11 +25,9 @@ export default function () {
       return this.swimAction
     },
     removeFromStage () {
-      // this.swimBackground.removeFromStage();
-      // this.swimAction.airBubbles.resetAirBubbles();
-
-      // this.utils.root.grid.clearGrid();
-      // this.utils.root.grid.removeFromStage();
+      this.swimBackground.removeFromStage();
+      this.utils.root.grid.clearGrid();
+      this.utils.root.grid.removeFromStage();
     },
     resize () {
       this.swimAction.resize()
@@ -39,6 +37,7 @@ export default function () {
 
     },
     animate () {
+
       this.swimBackground.animate()
       this.swimAction.animate()
     }

@@ -11,7 +11,6 @@ export default function () {
       root.gears.resize()
       root.hero.resize()
       root.swim.resize()
-      root.tokens.resize()
 
       if (root.isMobile) {
         root.controlPanel.resize()
