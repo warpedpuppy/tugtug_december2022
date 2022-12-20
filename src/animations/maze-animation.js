@@ -2,13 +2,13 @@ import Utils from './utils/utils'
 import Assets from './utils/assetCreation'
 import Tweens from './utils/Tweens'
 import Clock from './supportingClasses/universal/clock'
-import Swim from './supportingClasses/swim/indexSwim'
+import Swim from './supportingClasses/maze'
 import Gears from './supportingClasses/universal/gears'
-import Hero from './supportingClasses/swim/heroSwim'
+import Hero from './supportingClasses/maze/hero'
 import Config from './animations-config'
 import KeyHandler from './supportingClasses/universal/keyHandler'
 import Grid from './supportingClasses/grid/gridIndex'
-import Resize from './supportingClasses/swim/swimResize'
+import Resize from './supportingClasses/maze/resize'
 import MazeServices from '../services/maze-service'
 import DefaultMaze from '../defaults/DefaultMaze'
 
@@ -40,9 +40,6 @@ const MazeAnimation = {
 	mazeCanvas: undefined,
     init (activeMaze) {
 
-
-
-			console.log("INIT")
 			this.activeMaze = activeMaze;
 			this.utils.root = this
 			this.utils.getWidthAndHeight();
