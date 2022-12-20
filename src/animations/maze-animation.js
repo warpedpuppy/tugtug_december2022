@@ -37,8 +37,9 @@ const MazeAnimation = {
 	assets: undefined,
 	rotateLeftBoolean: false, 
 	rotateRightBoolean: false,
+	storeMaze: undefined,
     init (parent, activeMaze) {
-   
+		
       this.activeMaze = activeMaze;
       this.utils.root = this
 	this.utils.getWidthAndHeight();
@@ -48,26 +49,31 @@ const MazeAnimation = {
 
 
       let mazeCanvas = document.getElementById('maze-canvas');
+	 
 	  mazeCanvas.width = this.utils.canvasWidth;
 	  mazeCanvas.height = this.utils.canvasHeight;
 	  mazeCanvas.appendChild(app.view)
-
       this.stage = app.stage
       this.stage.addChild(this.kingCont)
 
    
-		const load = async () => {
-			if (this.loaded) return;
-			this.loaded = true;
-			this.assets = await PIXI.Assets.loader.load('/ss/ss.json');
-			if (this.assets) this.buildGame()
-		}
-		load();
+	const load = async () => {
+		console.log('loaded check', this.loaded)
+		if (this.loaded) { this.buildGame(); return;}
+		console.log('1')
+		this.loaded = true;
+		console.log('2')
+		this.assets = await PIXI.Assets.loader.load('/ss/ss.json');
+		console.log("LOAD GAME", this.assets)
+		if (this.assets) this.buildGame()
+		console.log('3')
+	}
+	load();
 		
     },
     buildGame () {
-
-	this.grid.boards = [this.activeMaze];
+		console.log("BUILD GAME", this.activeMaze)
+		this.grid.boards = [this.activeMaze];
 
       this.utils.setProperties({
         spritesheet: this.assets,
@@ -115,17 +121,17 @@ const MazeAnimation = {
     },
     stop () {
       window.onresize = undefined
-
-      if (this.app) this.app.destroy(true)
-
-      if (!this.isMobile && this.keyHandler) {
-        this.keyHandler.removeFromStage()
-      }
+	  this.kingCont.removeChildren();
+	  this.gears.removeFromStage();
+	  this.hero.removeFromStage();
+	// 	this.swim.removeFromStage();
+      this.clock.removeFromStage()
+      this.app.destroy(true);
 
       Tweens.killAll()
     },
     reset () {
-      this.tokens.reset()
+
 
       // this[this.activeMode].removeFromStage();
 

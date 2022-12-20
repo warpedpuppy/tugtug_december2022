@@ -8,16 +8,18 @@ const MazeCanvas = ({activeMaze}) => {
 	const [ showStartScreen, setShowStartScreen ] = useState(true);
    
     useEffect(() => {
-		 MazeAnimation.init(this, activeMaze)
+		console.log('maze canvas did mount')
+		//  MazeAnimation.init(this, activeMaze)
 	}, [])
-       
-    const startGame = () => {
-      setShowStartScreen(false)
-      MazeAnimation.startGame()
-    }
 
 	useEffect(() => {
+		MazeAnimation.init(this, activeMaze)
+		// console.log("change active maze")
+   }, [activeMaze])
+       
+	useEffect(() => {
 		return () => {
+			console.log('maze canvas did unmount')
 			MazeAnimation.stop()
 		}
 	})

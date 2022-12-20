@@ -4,7 +4,7 @@ import './AllGrids.css';
 import DeleteModal from './DeleteModal';
 
 
-const AllGrids = ({mazes, deleteMaze}) =>  {
+const AllGrids = ({mazes, deleteMaze, activeMaze, setActiveMaze}) =>  {
 	const [show, setShow ] = useState(false);
     const handleClose = () => setShow(false);
 
@@ -32,6 +32,8 @@ const AllGrids = ({mazes, deleteMaze}) =>  {
 					mazes.map((mazeObject, index) => {
 						return (
 							<DisplayMaze
+								activeMaze={ activeMaze.id === mazeObject.id }
+								setActiveMaze={ () => setActiveMaze(mazeObject) }
 								key={index}
 								defaultMaze={mazeObject.default || false}
 								deleteMaze={() => triggerModal(index)}

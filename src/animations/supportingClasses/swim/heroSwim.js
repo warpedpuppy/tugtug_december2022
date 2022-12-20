@@ -31,7 +31,7 @@ export default function () {
       this.parentCont.addChild(this.cont)
     },
     removeFromStage () {
-      this.parentCont.removeChild(this.cont)
+      this.cont.removeChildren();
     },
     resize () {
       this.cont.x = this.utils.canvasWidth / 2

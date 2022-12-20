@@ -37,7 +37,7 @@ export default function () {
     },
     removeFromStage () {
       for (let i = 0; i < 4; i++) {
-        this.utils.app.stage.removeChild(this.gears[i])
+		this.utils.root.kingCont.removeChild(this.gears[i])
       }
     },
     resize () {

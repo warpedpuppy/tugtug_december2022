@@ -3,10 +3,10 @@ import Button from 'react-bootstrap/Button';
 import Grid from '../Grid/Grid';
 import './DisplayMaze.css';
 
-const DisplayMaze = ({c, r, walls, hero, id, deleteMaze, defaultMaze}) => {
-	const chooseMaze = () => {};
+const DisplayMaze = ({c, r, walls, hero, id, deleteMaze, defaultMaze, activeMaze, setActiveMaze }) => {
+	const chooseMaze = () => setActiveMaze();
 	return (
-		<div className="displayDiv" onClick={chooseMaze}>
+		<div className="displayDiv" onClick={chooseMaze} >
 			<Grid r={r} c={c} walls={walls} hero={hero} />
 			{
 				!defaultMaze ?  <Button
@@ -16,7 +16,9 @@ const DisplayMaze = ({c, r, walls, hero, id, deleteMaze, defaultMaze}) => {
 				> Delete Maze </Button>
 				:
 				<p>this is the default - cannot be deleted</p>
+				
 			}
+			<p>active maze: {activeMaze.toString()} </p>
 		</div>
 	)
     

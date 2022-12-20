@@ -76,7 +76,6 @@ export default function () {
       if (this.utils.root.all) {
         this.omnibusArray = []
       }
-      // // console(this.blocks)
       for (let i = 0; i < data.r; i++) {
         this.blocks[i] = []
         for (let j = 0; j < data.c; j++) {

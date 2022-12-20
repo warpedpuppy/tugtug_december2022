@@ -8,7 +8,7 @@ import TokenService from '../services/token-service';
 import { Routes, Route, Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
-const Admin = ({setActiveMaze}) => {
+const Admin = ({ activeMaze, setActiveMaze}) => {
 
 	const [ mazes, setMazes ] = useState([]);
 	const [ loggedIn, setLoggedIn ] = useState(false);
@@ -32,7 +32,7 @@ const Admin = ({setActiveMaze}) => {
 	const loadMazes = async () => {
 		let mazes = await MazeService.loadAllMazes();
 		// console('active maze = ', mazes[0])
-		setActiveMaze(mazes[0]);
+		// setActiveMaze(mazes[0]);
 		setMazes(mazes);
 	}
 
@@ -51,7 +51,7 @@ const Admin = ({setActiveMaze}) => {
 			<Routes>
 				<Route index element={<AdminHome />} />
 				<Route path='new-maze' element={ <NewGrid addMaze={ addMaze } loggedIn={loggedIn} /> } />
-				<Route path='all-mazes' element={ <AllGrids mazes={ mazes } deleteMaze={ deleteMaze } /> } />
+				<Route path='all-mazes' element={ <AllGrids mazes={ mazes } activeMaze={ activeMaze } deleteMaze={ deleteMaze } setActiveMaze={setActiveMaze} /> } />
 				<Route path='admin-login' element={ <Login loginHandler={loginHandler} loggedIn={loggedIn} logOutHandler={logOutHandler}/> } />
 				<Route path='*' element={ <h1>not found</h1> } />
 			</Routes>

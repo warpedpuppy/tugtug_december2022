@@ -71,11 +71,7 @@ export default function () {
       }
     },
     removeFromStage () {
-      this.gridAction.pause = true
-      this.parentCont.removeChild(this.gridBuild.cont)
-      if (this.utils.root.all) {
-        this.gridBuild.vortexes.addRemoveVortexes(false)
-      }
+	  this.gridBuild.cont.removeChildren();
     },
     resize () {
       this.gridBuild.gridResizeHandler.resize()
